@@ -106,6 +106,7 @@ namespace CppAD{
 #include "convenience.hpp"    // Requires besselK
 #include "tmbutils/tmbutils_extra.hpp"
 #include "tmbutils/R_inla.hpp"
+#include "thread_safe_R.hpp" // UNDO thread safe redefines
 #include "precompile.hpp" // Must come last
 using tmbutils::array;
 using Eigen::Matrix;
