@@ -1,12 +1,16 @@
 #ifdef _OPENMP
 
 /* Override R-API with thread safe versions.
+   (Undo by including twice)
 
    FIXME: Still some missing e.g. XLENGTH
 
    FIXME: To minimize overhead one should use as few R-API calls as
    possible, i.e. avoid doing REAL(x)[i] in a loop.
 */
+
+#ifndef TMB_HAVE_THREAD_SAFE_R
+#define TMB_HAVE_THREAD_SAFE_R
 
 inline SEXP Ts_getAttrib(SEXP x, SEXP y) {
   SEXP ans;
@@ -121,5 +125,23 @@ inline SEXP Ts_install(const char *x) {
 #define Rf_isNumeric   Ts_isNumeric
 #define LENGTH         Ts_LENGTH
 #define Rf_install     Ts_install
+
+#else
+
+#undef TMB_HAVE_THREAD_SAFE_R
+// Undefine
+#undef Rf_getAttrib
+#undef STRING_ELT
+// FIXME: Undef CHAR
+#undef VECTOR_ELT
+#undef Rf_length
+#undef INTEGER
+#undef REAL
+#undef GetRNGstate
+#undef Rf_isNumeric
+#undef LENGTH
+#undef Rf_install
+
+#endif // TMB_HAVE_THREAD_SAFE_R
 
 #endif // _OPENMP
