@@ -77,11 +77,11 @@ inline double* Ts_REAL(SEXP x) {
 
 extern "C"
 inline void Ts_GetRNGstate() {
-#pragma omp master
+#pragma omp critical
   {
     GetRNGstate();
   }
-  // Threads wait for master
+  // Wait for all threads to get to this point
 #pragma omp barrier
 }
 
